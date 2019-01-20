@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 
 app.get('/test',(req,res)=>{res.json({hello:"world"});});
 app.use('/api/auth',routes.auth);
+app.use('/api/journeys',routes.journey);
 
 //error handler
 app.use(handle.notFound);

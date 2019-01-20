@@ -10,11 +10,36 @@ const userSchema=new mongoose.Schema({
         type:String,
         required:true,
     },
+    firstName:{
+        type:String,
+    },
+    lastName:{
+        type:String,
+    },
+    city:{
+        type:String,
+    },
+    country:{
+        type:String,
+    },
+    about:{
+        type:String,
+    },
+    mobile:{
+        type:Number,
+    },
+    stars:{
+        type:Number,
+        default:0
+    },
+    greenLevel:{
+        type:Number,
+        default:1
+    },
     created:{
         type:Date,
         default:Date.now,
-    },
-    polls:[{type:mongoose.Schema.Types.ObjectId,ref:'Poll'}]
+    }
 });
 
 

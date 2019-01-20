@@ -51,3 +51,43 @@ exports.login = async (req, res, next) => {
         next(err);
     }
 }
+
+//create user other information
+exports.updateProfile=async (req,res,next)=>{
+    try {
+        const {firstName,lastName,city,country,about,mobile,} = req.body;
+        const {id} = req.decoded;
+        const user=await db.User.findById(id);
+        user.firstName=firstName;
+        user.lastName=lastName;
+        user.city=city;
+        user.about=about;
+        user.country=country;
+        user.mobile=mobile;
+        await user.save();
+
+        res
+        .status(201)
+        .json(user);
+
+    } catch (err) {
+        err.status=400;
+        next(err);
+    }
+}
+
+//get user profile
+exports.getProfile=async (req,res,next)=>{
+    try {
+        const {id}=req.params;
+        const user = await db
+        .User
+        .findById(id);
+
+        res.status(201).json(user);
+    } catch (err) {
+        err.status=400;
+        next(err);
+    }
+}
+
