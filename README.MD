@@ -7,8 +7,21 @@ git clone git@github.com:EricZhou0815/Travare-Server.git
 ```
 
 ### 2. Update the node_modules based on the package.json
+```
+npm install
+```
 
-### 3. Start the server
+### 3. Connect to the database
+
+This server uses MongoDB Atlas as database. The connection string is in models/index.js. Database connection account and password are in .env file.
+
+Please the .env config is only used for development. The config will change when it is deployed.
+
+If you need to deploy your own server, please create a MongoDB Atlas database and use your own data base. For detailed process, please refer to this tutorial:
+
+https://www.thepolyglotdeveloper.com/2018/09/developing-restful-api-nodejs-mongodb-atlas/
+
+### 4. Start the server
 
 ```
 npm run watch
