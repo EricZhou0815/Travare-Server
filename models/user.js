@@ -4,12 +4,12 @@ const bcrypt=require('bcryptjs');
 const userSchema=new mongoose.Schema({
     username:{
         type:String,
-        required:true,  
+        required:true, 
     },
     password:{
         type:String,
-        required:true,
     },
+    thirdPartyAuth:String,
     firstName:{
         type:String,
     },
@@ -22,6 +22,7 @@ const userSchema=new mongoose.Schema({
     country:{
         type:String,
     },
+    picture:String,
     about:{
         type:String,
     },

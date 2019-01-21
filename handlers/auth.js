@@ -2,12 +2,13 @@ const jwt = require('jsonwebtoken');
 
 const db = require('../models');
 
-//register
+//register 
 exports.register = async (req, res, next) => {
     try {
         const user = await db
-            .User
-            .create(req.body);
+        .User
+        .create(req.body);
+
         const {id, username} = user;
 
         const token = jwt.sign({
@@ -31,12 +32,23 @@ exports.register = async (req, res, next) => {
 //login
 exports.login = async (req, res, next) => {
     try {
-        const user = await db
+        let valid=false;
+        if (req.body.thirdPartyAuth){
+            const thirdPartyAuth=req.body.thirdPartyAuth;
+            const user = await db
+            .User
+            .findOne({thirdPartyAuth: thirdPartyAuth});
+            if (user) {
+                valid=true;
+            }
+        }else{
+            const user = await db
             .User
             .findOne({username: req.body.username});
-        const {id, username} = user;
-        const valid = await user.comparePassword(req.body.password);
+            valid = await user.comparePassword(req.body.password);
+        }
 
+        const {id, username} = user;
         if (valid) {
             const token = jwt.sign({
                 id,
