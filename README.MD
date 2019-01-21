@@ -42,7 +42,7 @@ Method: POST
 }
 ```
 
-In both situation, the server will return json with id, username, and token. For example:
+In both situations, the server will return json with id, username, and token. For example:
 ```
 {
     "id": "5c423ed07593247fd9b5abfd",
@@ -170,9 +170,13 @@ The server will also return a user profile, for example:
 
 ## JOURNEY:
 
-Create: journeys/ (post)
+### 1. Create a Journey
 
-Journey Json example:
+URL:localhost:4000/api/journeys
+
+Method: POST
+
+Send the request header with token and request body in json format as example below:
 ```
     {
         "fromLocation":{
@@ -204,6 +208,110 @@ Journey Json example:
         "status":"matching",
     }
 ```
+
+The server will return the whole journey information that is just saved. For example:
+
+```
+{
+    "fromLocation": {
+        "loc": {
+            "coordinates": [
+                -36.205871,
+                174.795089
+            ],
+            "type": "Point"
+        },
+        "name": "Carington",
+        "area": "Auckland"
+    },
+    "toLocation": {
+        "loc": {
+            "coordinates": [
+                -36.530007,
+                174.707912
+            ],
+            "type": "Point"
+        },
+        "name": "Free hill",
+        "area": "Auckland"
+    },
+    "role": "passenger",
+    "status": "matching",
+    "matchedUser": [],
+    "chatedUser": [],
+    "_id": "5c453f6aa08d9512ce8c3a59",
+    "dateTime": "2019-05-25T15:04:34.967Z",
+    "numberOfPeople": 2,
+    "publisher": "5c4534ecd5cc2ce5e6c665d5",
+    "created": "2019-01-21T03:41:30.224Z",
+    "__v": 0
+}
+```
+
+### 2. Show Journeys: return all journeys of a user
+URL:localhost:4000/api/journeys
+
+Method:GET
+
+Send just the request header with token as example below:
+
+
+
+
+### 3. Get a Journey: return all details of a journey
+URL:localhost:4000/api/journeys/id
+
+Method:GET
+
+
+
+
+
+### 3. Match and Recommend Journeys:
+URL:localhost:4000/api/journeys/id
+
+Method:POST
+
+
+
+
+
+
+
+### 4. Change Journey Status
+URL:localhost:4000/api/journeys/id
+
+Method:PUT
+
+
+
+
+
+### 5. Delete a Journey
+URL:localhost:4000/api/journeys/id
+
+Method:DELETE
+
+
+
+
+### 6. Rate a Journey
+URL:localhost:4000/api/journeys/id/rate
+
+Method:POST
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
