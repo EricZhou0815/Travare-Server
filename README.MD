@@ -1,13 +1,16 @@
-ROUTES:
+## ROUTES:
+
 Root: http://localhost:4000/api/
 
-USER/AUTH
+## USER/AUTH
+
 Register: auth/register  (post)
+
 Login: auth/login (post)
 
-JOURNEY
-Create: journeys/ (post)
+## JOURNEY:
 
+Create: journeys/ (post)
 
 Journey Json example:
 ```
