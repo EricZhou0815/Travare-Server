@@ -1,14 +1,14 @@
-#### How to use
+## How to use
 
-1. Download the file or use git commond:
+### 1. Download the file or use git commond:
 
 ```
 git clone git@github.com:EricZhou0815/Travare-Server.git
 ```
 
-2. Update the node_modules based on the package.json
+### 2. Update the node_modules based on the package.json
 
-3. Start the server
+### 3. Start the server
 
 ```
 npm run watch
@@ -20,13 +20,13 @@ Root: http://localhost:4000/api/
 
 ## USER/AUTH
 
-1. Register
+### 1. Register
 
 URL: http://localhost:4000/api/auth/register
 
 Method: POST
 
-1.1. Register with username and password. For example:
+#### 1.1. Register with username and password. For example:
 ```
 {
     "username":"Lynn Liu",
@@ -34,7 +34,7 @@ Method: POST
 }
 ```
 
-1.2. Register with third party token and id. Put token under 'thirdPartyAuth' and id under 'username'. For example:
+#### 1.2. Register with third party token and id. Put token under 'thirdPartyAuth' and id under 'username'. For example:
 ```
 {
     "username":"agj35ogpdfnb53ygfdsafnvfeg45g2fds",
@@ -54,13 +54,13 @@ In both situation, the server will return json with id, username, and token. For
 Please save your token at a safe place, it will be used for further request.
 
 
-2. Login
+### 2. Login
 
 URL: http://localhost:4000/api/auth/login
 
 Method: POST
 
-2.1. Login with username and password, for example:
+#### 2.1. Login with username and password, for example:
 
 ```
 {
@@ -68,7 +68,7 @@ Method: POST
     "password":"password"
 }
 ```
-2.2 Login with third party token, for example:
+#### 2.2 Login with third party token, for example:
 ```
 {
     "thirdPartyAuth":"ghbejbnsgufsafbdb3egshd"
@@ -83,9 +83,9 @@ In both situations, the server will return a json with user id, username and tok
 }
 ```
 
-3. Profile
+### 3. Profile
 
-3.1. Update User Profile
+#### 3.1. Update User Profile
 
 URL: http://localhost:4000/api/auth/profile
 
@@ -137,7 +137,7 @@ The server will save the profile content and return the saved user profile, for 
 }
 ```
 
-3.2. Get User Profile
+#### 3.2. Get User Profile
 
 URL: http://localhost:4000/api/auth/profile
 
@@ -167,9 +167,6 @@ The server will also return a user profile, for example:
     "mobile": 212526546
 }
 ```
-
-
-
 
 ## JOURNEY:
 
