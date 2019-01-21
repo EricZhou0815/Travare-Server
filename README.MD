@@ -17,7 +17,7 @@ This server uses MongoDB Atlas as database. The connection string is in models/i
 
 Please the .env config is only used for development. The config will change when it is deployed.
 
-If you need to deploy your own server, please create a MongoDB Atlas database and use your own data base. For detailed process, please refer to this tutorial:
+If you need to deploy your own server, please create a MongoDB Atlas database and use your own data base. For detailed process, please reference this tutorial:
 
 https://www.thepolyglotdeveloper.com/2018/09/developing-restful-api-nodejs-mongodb-atlas/
 
