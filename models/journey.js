@@ -62,6 +62,10 @@ const journeySchema = new mongoose.Schema({
     co2Reduction: {
         type: Number
     },
+    star:{
+        type:Number,
+        default:0
+    },
     created: {
         type: Date,
         default: Date.now

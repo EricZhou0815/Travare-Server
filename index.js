@@ -13,8 +13,9 @@ const port=process.env.PORT;
 app.use(cors());
 app.use(bodyParser.json());
 
+//test endpoint
+app.get('/api',(req,res)=>{res.json({Greeting:"Welcome to use the Travare API!"});});
 
-app.get('/test',(req,res)=>{res.json({hello:"world"});});
 app.use('/api/auth',routes.auth);
 app.use('/api/journeys',routes.journey);
 

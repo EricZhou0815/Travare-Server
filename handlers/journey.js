@@ -2,12 +2,15 @@ const db = require("../models");
 
 module.exports = {
     showJourneys: async (req, res, next) => {
+        console.log(req.decoded);
         try {
+            const {id}=req.decoded;
             const journeies = await db
                 .Journey
-                .find()
-                .populate("user", ["id"]);
-
+                .find({
+                   $or:[{publisher:id},{matchedUser:[id]}] 
+                });
+                
             res
                 .status(200)
                 .json(journeies);
@@ -17,7 +20,6 @@ module.exports = {
         }
     },
     createJourney: async (req, res, next) => {
-        console.log(req.body);
         try {
             const journey = await db
                 .Journey
@@ -36,8 +38,23 @@ module.exports = {
             next(err);
         }
     },
-    recommendJourney: async (req, res, next) => {
+    //show a journey details
+    getJourney:async (req,res,next)=>{
         try {
+            const {id}=req.params;
+            const journey = await db
+                    .Journey
+                    .findById(id);
+
+            res.status(201).json(journey);
+        } catch (err) {
+            err.status=400;
+            next(err);
+        }
+    },
+    //match journey within location (within 5 km range of depart and arrive locations) and time (within 1 hour)
+    matchJourneys: async (req, res, next) => {
+     //   try {
             //find the journey
             const {id} = req.params;
             const journey = await db
@@ -91,7 +108,7 @@ module.exports = {
                     dateTime: {
                         time: {
                             $gt: journeyTime - 60 * 60 * 1000,
-                            $lt: maxTime + 60 * 60 * 1000
+                            $lt: journeyTime + 60 * 60 * 1000
                         }
                     }
                 });
@@ -99,10 +116,10 @@ module.exports = {
             res
                 .status(201)
                 .json(journeys);
-        } catch (err) {
-            err.status = 400;
-            next(err);
-        }
+      //  } catch (err) {
+        //    err.status = 400;
+        //    next(err);
+       // }
     },
     //matched: push passenger's user_id to driver's journey
     //default status: matching
@@ -117,15 +134,15 @@ module.exports = {
                 .findById(id);
 
             switch (status) {
-                case matched:
+                case "matched":
                     journey.matchedUser.push(userId);
                     //put userid into users list
                     break;
-                case starting:
+                case "starting":
                     //
                     break;
-                case closed:
-                   //
+                case "closed":
+                   //need to calculate the CO2Reduction
                     break;
                 default:
                     break;
@@ -163,9 +180,30 @@ module.exports = {
         }
     },
     //give journey stars and calculate the average stars of this journey
-    //and calculate users' average star
+  
     rateJourney:async (req,res,next)=>{
+       try {
+            const {id: journeyId} = req.params;
+            const {star}=req.body;
+            const journey = await db
+                .Journey
+                .findById(journeyId);
 
+            if (journey.star==0) {
+                journey.star=star; 
+            } else {
+                journey.star=(star+journey.star)/2;
+            }    
+            await journey.save();
+
+            res
+            .status(202)
+            .json(journey);
+
+       } catch (err) {
+           err.status=400;
+           next(err);
+        }
     }
     
 };

@@ -193,8 +193,8 @@ Send the request header with token and request body in json format as example be
 ```
     {
         "fromLocation":{
-            "name":Unitec,
-            "area":Auckland,
+            "name":"Unitec",
+            "area":"Auckland",
             "loc":{
                 "type":"Point",
                 "coordinates":[
@@ -204,8 +204,8 @@ Send the request header with token and request body in json format as example be
             }
         },
         "toLocation":{
-            "name":City Centre,
-            "area":Auckland,
+            "name":"City Centre",
+            "area":"Auckland",
             "loc":{
                 "type":"Point",
                 "coordinates":[
@@ -218,7 +218,7 @@ Send the request header with token and request body in json format as example be
         "numberOfPeople":2,
         "publisher":"5c3fd714e047373a9284bd7c",
         "role":"driver",
-        "status":"matching",
+        "status":"matching"
     }
 ```
 
@@ -262,30 +262,106 @@ The server will return the whole journey information that is just saved. For exa
 ```
 
 ### 2. Show Journeys: return all journeys of a user
+
 URL:localhost:4000/api/journeys
 
 Method:GET
 
-Send just the request header with token as example below:
-
-
-
+Send just the request header with token of a user, then the server will return all journeys of this user. For example:
+```
+[
+    {
+        "fromLocation": {
+            "loc": {
+                "coordinates": [
+                    -36.205871,
+                    174.795089
+                ],
+                "type": "Point"
+            },
+            "name": "Carington",
+            "area": "Auckland"
+        },
+        "toLocation": {
+            "loc": {
+                "coordinates": [
+                    -36.530007,
+                    174.707912
+                ],
+                "type": "Point"
+            },
+            "name": "Free hill",
+            "area": "Auckland"
+        },
+        "role": "passenger",
+        "status": "matching",
+        "matchedUser": [],
+        "chatedUser": [],
+        "_id": "5c453f6aa08d9512ce8c3a59",
+        "dateTime": "2019-05-25T15:04:34.967Z",
+        "numberOfPeople": 2,
+        "publisher": "5c4534ecd5cc2ce5e6c665d5",
+        "created": "2019-01-21T03:41:30.224Z",
+        "__v": 0
+    }
+]
+```
 
 ### 3. Get a Journey: return all details of a journey
+
 URL:localhost:4000/api/journeys/id
 
 Method:GET
 
+Get the detail information of a single journey with the journey id. Sent request header with user token. The server will return a journey, for example:
 
+Use url: localhost:4000/api/journeys/localhost:4000/api/journeys/id
 
+Get response as below:
 
+```
+{
+    "fromLocation": {
+        "loc": {
+            "coordinates": [
+                -36.205871,
+                174.795089
+            ],
+            "type": "Point"
+        },
+        "name": "Carington",
+        "area": "Auckland"
+    },
+    "toLocation": {
+        "loc": {
+            "coordinates": [
+                -36.530007,
+                174.707912
+            ],
+            "type": "Point"
+        },
+        "name": "Free hill",
+        "area": "Auckland"
+    },
+    "role": "passenger",
+    "status": "matching",
+    "matchedUser": [],
+    "chatedUser": [],
+    "_id": "5c453f6aa08d9512ce8c3a59",
+    "dateTime": "2019-05-25T15:04:34.967Z",
+    "numberOfPeople": 2,
+    "publisher": "5c4534ecd5cc2ce5e6c665d5",
+    "created": "2019-01-21T03:41:30.224Z",
+    "__v": 0
+}
+```
 
 ### 3. Match and Recommend Journeys:
 URL:localhost:4000/api/journeys/id
 
 Method:POST
 
-
+* In testing, not working properly
 
 
 
@@ -296,6 +372,56 @@ URL:localhost:4000/api/journeys/id
 
 Method:PUT
 
+Change the status of a journey. Send request header with user token, and request body with status value. 
+
+The status can be: "matching", "matched", "starting", "closed".
+
+For example, send the request below:
+
+```
+{
+    "status":"closed"
+}
+```
+
+The server will return a journey:
+
+```
+{
+    "fromLocation": {
+        "loc": {
+            "coordinates": [
+                -36.205871,
+                174.795089
+            ],
+            "type": "Point"
+        },
+        "name": "Carington",
+        "area": "Auckland"
+    },
+    "toLocation": {
+        "loc": {
+            "coordinates": [
+                -36.530007,
+                174.707912
+            ],
+            "type": "Point"
+        },
+        "name": "Free hill",
+        "area": "Auckland"
+    },
+    "role": "passenger",
+    "status": "closed",
+    "matchedUser": [],
+    "chatedUser": [],
+    "_id": "5c453f6aa08d9512ce8c3a59",
+    "dateTime": "2019-05-25T15:04:34.967Z",
+    "numberOfPeople": 2,
+    "publisher": "5c4534ecd5cc2ce5e6c665d5",
+    "created": "2019-01-21T03:41:30.224Z",
+    "__v": 0
+}
+```
 
 
 
@@ -305,7 +431,9 @@ URL:localhost:4000/api/journeys/id
 
 Method:DELETE
 
+Send request header with user token.
 
+The server will delete the journey of this id.
 
 
 ### 6. Rate a Journey
@@ -313,18 +441,51 @@ URL:localhost:4000/api/journeys/id/rate
 
 Method:POST
 
+Send request header with user token and body with rating (0-5) to the server. For example:
 
+```
+{
+    "star":4
+}
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+The server will return the journey. For example:
+```
+{
+    "fromLocation": {
+        "loc": {
+            "coordinates": [
+                -2834.365345,
+                874.243242
+            ],
+            "type": "Point"
+        },
+        "name": "Unitec",
+        "area": "Auckland"
+    },
+    "toLocation": {
+        "loc": {
+            "coordinates": [
+                -2834.389,
+                874.262542
+            ],
+            "type": "Point"
+        },
+        "name": "City Centre",
+        "area": "Auckland"
+    },
+    "role": "driver",
+    "status": "matching",
+    "star": 4,
+    "matchedUser": [
+        "5c3fd714e047373a9284bd7c"
+    ],
+    "chatedUser": [],
+    "_id": "5c4779c20735c1321e1c934f",
+    "dateTime": "2019-12-31T09:59:34.967Z",
+    "numberOfPeople": 3,
+    "publisher": "5c3fd714e047373a9284bd7c",
+    "created": "2019-01-22T20:14:58.094Z",
+    "__v": 1
+}
+```

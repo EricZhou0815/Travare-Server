@@ -33,21 +33,21 @@ exports.register = async (req, res, next) => {
 exports.login = async (req, res, next) => {
     try {
         let valid=false;
+        let user;
         if (req.body.thirdPartyAuth){
             const thirdPartyAuth=req.body.thirdPartyAuth;
-            const user = await db
+            user = await db
             .User
             .findOne({thirdPartyAuth: thirdPartyAuth});
             if (user) {
                 valid=true;
             }
         }else{
-            const user = await db
+            user = await db
             .User
             .findOne({username: req.body.username});
             valid = await user.comparePassword(req.body.password);
         }
-
         const {id, username} = user;
         if (valid) {
             const token = jwt.sign({
@@ -58,7 +58,7 @@ exports.login = async (req, res, next) => {
         } else {
             throw new Error();
         }
-    } catch (errr) {
+   } catch (err) {
         err.message = 'Invalid Username/Password';
         next(err);
     }
@@ -67,7 +67,7 @@ exports.login = async (req, res, next) => {
 //create user other information
 exports.updateProfile=async (req,res,next)=>{
     try {
-        const {firstName,lastName,city,country,about,mobile,} = req.body;
+        const {firstName,lastName,city,country,about,mobile} = req.body;
         const {id} = req.decoded;
         const user=await db.User.findById(id);
         user.firstName=firstName;
@@ -91,7 +91,7 @@ exports.updateProfile=async (req,res,next)=>{
 //get user profile
 exports.getProfile=async (req,res,next)=>{
     try {
-        const {id}=req.params;
+        const {id}=req.decoded;
         const user = await db
         .User
         .findById(id);
