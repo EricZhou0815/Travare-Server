@@ -14,7 +14,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 //test endpoint
-app.get('/api',(req,res)=>{res.json({Greeting:"Welcome to use the Travare API!"});});
+app.get('/',(req,res)=>{res.json({Greeting:"Welcome to use the Travare API!"});});
 
 app.use('/api/auth',routes.auth);
 app.use('/api/journeys',routes.journey);

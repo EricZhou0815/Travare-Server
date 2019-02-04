@@ -54,7 +54,7 @@ module.exports = {
     },
     //match journey within location (within 5 km range of depart and arrive locations) and time (within 1 hour)
     matchJourneys: async (req, res, next) => {
-     //   try {
+        try {
             //find the journey
             const {id} = req.params;
             const journey = await db
@@ -62,6 +62,8 @@ module.exports = {
                 .findById(id);
 
             const journeyTime = journey.dateTime;
+            const earlyTime=new Date(journeyTime-60*60*1000);
+            const laterTime=new Date(journeyTime+60*60*1000);
             const fromLocLong = journey
                 .fromLocation
                 .loc
@@ -80,23 +82,28 @@ module.exports = {
                 .coordinates[1];
             // find journeys in the near time, fromLocation and toLocation are in 5000
             // meters range of targeted journey
+            console.log(journey);
             const journeys = await db
                 .Journey
                 .find({
-                    fromLocation: {
+                    dateTime: {
+                        $gt: earlyTime,
+                        $lt: laterTime
+                    },
+                  fromLocation: {
                         loc: {
-                            $nearShpere: {
+                            $near: {
+                                $maxDistance:5000,
                                 $geometry: {
                                     type: "Point",
                                     coordinates: [fromLocLong, fromLocLat]
                                 },
-                                $maxDistance: 5000
                             }
                         }
                     },
                     toLocation: {
                         loc: {
-                            $nearShpere: {
+                            $near: {
                                 $geometry: {
                                     type: "Point",
                                     coordinates: [toLocLong, toLocLat]
@@ -104,22 +111,19 @@ module.exports = {
                                 $maxDistance: 5000
                             }
                         }
-                    },
-                    dateTime: {
-                        time: {
-                            $gt: journeyTime - 60 * 60 * 1000,
-                            $lt: journeyTime + 60 * 60 * 1000
-                        }
                     }
-                });
+                
+                }).limit(4);
+            
+            console.log(journeys);
 
             res
                 .status(201)
                 .json(journeys);
-      //  } catch (err) {
-        //    err.status = 400;
-        //    next(err);
-       // }
+        } catch (err) {
+            err.status = 400;
+            next(err);
+        }
     },
     //matched: push passenger's user_id to driver's journey
     //default status: matching

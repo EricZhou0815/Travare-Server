@@ -12,7 +12,8 @@ const journeySchema = new mongoose.Schema({
             },
             coordinates: {
                 type: [Number], //GeoJson Style: [longtitude,latitude]
-                required: true
+                required: true,
+                index:'2dsphere'
             }
         }
     },
@@ -23,7 +24,8 @@ const journeySchema = new mongoose.Schema({
             type: {
                 type: String,
                 enum: ['Point'],
-                required: true
+                required: true,
+                index:'2dsphere'
             },
             coordinates: {
                 type: [Number], //GeoJson Style: [longtitude,latitude]

@@ -5,7 +5,7 @@ mongoose.set('debug',true);
 mongoose.Promise=global.Promise;
 mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@travare-h7xx9.mongodb.net/test?retryWrites=true`);
 
-const db=require('./models');
+const db=require('../models');
 
 const users=[
     {username:'Eric',password:'hily2006'},

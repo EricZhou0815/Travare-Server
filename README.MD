@@ -315,7 +315,7 @@ Method:GET
 
 Get the detail information of a single journey with the journey id. Sent request header with user token. The server will return a journey, for example:
 
-Use url: localhost:4000/api/journeys/localhost:4000/api/journeys/id
+Use url: localhost:4000/api/journeys/id
 
 Get response as below:
 
