@@ -361,10 +361,7 @@ URL:localhost:4000/api/journeys/id
 
 Method:POST
 
-* In testing, not working properly
-
-
-
+server will return matched journeys
 
 
 ### 4. Change Journey Status
