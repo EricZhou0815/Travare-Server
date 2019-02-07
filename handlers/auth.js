@@ -1,24 +1,27 @@
 const jwt = require('jsonwebtoken');
-
 const db = require('../models');
 
 //register 
 exports.register = async (req, res, next) => {
     try {
         const user = await db
-        .User
-        .create(req.body);
+            .User
+            .create(req.body);
 
-        const {id, username} = user;
+        if (user.uid === null) {
+            user.uid = user.id;
+        }
+
+        const { uid, username } = user;
 
         const token = jwt.sign({
-            id,
+            uid,
             username
         }, process.env.SECRET);
 
         res
             .status(201)
-            .json({id, username, token});
+            .json({ uid, username, token });
 
     } catch (err) {
         if (err.code === 11000) {
@@ -32,73 +35,74 @@ exports.register = async (req, res, next) => {
 //login
 exports.login = async (req, res, next) => {
     try {
-        let valid=false;
+        let valid = false;
         let user;
-        if (req.body.thirdPartyAuth){
-            const thirdPartyAuth=req.body.thirdPartyAuth;
+        if (req.body.thirdPartyToken != undefined && req.body.thirdPartyToken != null) {
+            const thirdPartyToken = req.body.thirdPartyToken;
             user = await db
-            .User
-            .findOne({thirdPartyAuth: thirdPartyAuth});
+                .User
+                .findOne({ thirdPartyToken: thirdPartyToken });
             if (user) {
-                valid=true;
+                valid = true;
             }
-        }else{
+        } else {
             user = await db
-            .User
-            .findOne({username: req.body.username});
+                .User
+                .findOne({ username: req.body.username });
             valid = await user.comparePassword(req.body.password);
         }
-        const {id, username} = user;
+
         if (valid) {
+            const { uid, username } = user;
             const token = jwt.sign({
-                id,
+                uid,
                 username
             }, process.env.SECRET);
-            res.json({id, username, token});
+            res.json({ uid, username, token });
         } else {
             throw new Error();
         }
-   } catch (err) {
+    } catch (err) {
         err.message = 'Invalid Username/Password';
         next(err);
     }
 }
 
 //create user other information
-exports.updateProfile=async (req,res,next)=>{
+exports.updateProfile = async (req, res, next) => {
     try {
-        const {firstName,lastName,city,country,about,mobile} = req.body;
-        const {id} = req.decoded;
-        const user=await db.User.findById(id);
-        user.firstName=firstName;
-        user.lastName=lastName;
-        user.city=city;
-        user.about=about;
-        user.country=country;
-        user.mobile=mobile;
+        const { firstName, lastName, city, country, about, mobile } = req.body;
+        const { id } = req.decoded;
+        const user = await db.User.findById(id);
+        user.firstName = firstName;
+        user.lastName = lastName;
+        user.city = city;
+        user.about = about;
+        user.country = country;
+        user.mobile = mobile;
         await user.save();
 
         res
-        .status(201)
-        .json(user);
+            .status(201)
+            .json(user);
 
     } catch (err) {
-        err.status=400;
+        err.status = 400;
         next(err);
     }
 }
 
 //get user profile
-exports.getProfile=async (req,res,next)=>{
+exports.getProfile = async (req, res, next) => {
     try {
-        const {id}=req.decoded;
+        const { uid } = req.decoded;
         const user = await db
-        .User
-        .findById(id);
+            .User
+            .findOne({uid: uid}, '-_id -__v -created',);
 
-        res.status(201).json(user);
+        res.status(200).json(user);
     } catch (err) {
-        err.status=400;
+        err.status = 400;
         next(err);
     }
 }

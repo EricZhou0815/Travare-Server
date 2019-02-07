@@ -127,3 +127,4 @@ typings/
 
 
 node_modules/
+.vscode
