@@ -1,8 +1,8 @@
-## Travare-Server Rest API
+# Travare-Server Rest API
 
 A mobile app as a solution to the Deloitte Online Challenge.
 
-# Project Related Link
+## Project Related Link
 
 [Deloitte Online Challenge Project Home Page](https://ideation-deloittegarage.bemyapp.com/#/projects/5c3e30c57cc0b60004dc17c5)
 
